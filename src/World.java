@@ -30,11 +30,21 @@ public class World extends JPanel{
     private List<Creature> creatures;
     private final Random random = new Random();
 
-    public World(int n) {
+    public World(int n) throws IOException {
 
         setBackground(new Color(20, 20, 30));
         generateMap();
         creatures = new ArrayList<>();
+
+        for (int i = 0; i < 50; i++) creatures.add(createCreature());
+
+        new Timer(200, e -> {
+            for(Creature creature : creatures) {
+                if(creature instanceof MargCitizenship) ((MargCitizenship) creature).move(map);
+                if(creature instanceof SimCitizenship) ((SimCitizenship) creature).move(map);
+            }
+            repaint();
+        }).start();
     }
 
 
@@ -44,7 +54,7 @@ public class World extends JPanel{
             for(int y = 0; y < GRID_COUNT; y++) {
                 // Assign territory to corners 10x10
                 // The rest of the map is unclaimed
-                if(x < 10 && y < 10) map[x][y] = Territory.MargartainTerritory;
+                if(x < 10 && y < 10) map[x][y] = Territory.MargartianTerritory;
                 else if(x > 39 && y > 39) map[x][y] = Territory.SimoniteTerritory;
                 else map[x][y] = Territory.Unclaimed;
             }
@@ -58,7 +68,7 @@ public class World extends JPanel{
         for(int x = 0; x < GRID_COUNT; x++) {
             for(int y = 0; y < GRID_COUNT; y++) {
                 switch(map[x][y]) {
-                    case MargartainTerritory -> g.setColor(new Color(100, 41, 38));
+                    case MargartianTerritory -> g.setColor(new Color(100, 41, 38));
                     case SimoniteTerritory -> g.setColor(new Color(47, 87, 47));
                     case Unclaimed -> g.setColor(new Color(84, 84, 84));
                 }
@@ -77,7 +87,8 @@ public class World extends JPanel{
 
         if (random.nextBoolean()) {
             return new Simonite(rName, random.nextInt(3), Color.GREEN, random.nextInt(GRID_COUNT), random.nextInt(GRID_COUNT));
-        } else {
+        }
+        else {
             return new Margartian(rName, random.nextInt(3), Color.RED, random.nextInt(GRID_COUNT), random.nextInt(GRID_COUNT));
         }
     }
@@ -112,16 +123,5 @@ public class World extends JPanel{
         f.setSize(765, 800);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         f.setVisible(true);
-
-        for (int i = 0; i < 50; i++) world.creatures.add(world.createCreature());
-
-        // while(world.creatures.size() > 0) {
-        //     if (random.nextInt(10) == 0) {
-        //         world.creatures.remove(world.random.nextInt(world.creatures.size()));
-        //     }
-        //     if (random.nextInt(15) == 0) {
-        //         world.creatures.add(world.createCreature());
-        //     }
-        // }
     }
 }

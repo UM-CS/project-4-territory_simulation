@@ -41,8 +41,8 @@ public class Creature {
 
         Territory t = map[x][y];
         if(t == Territory.Unclaimed) return true;
-        if(this instanceof MargCitizenship && t == Territory.MargartainTerritory) return true;
-        if(this instanceof SimCitizenship && t == Territory.SimoniteTerritory) return true;
+        if(t == Territory.MargartianTerritory && (this instanceof MargCitizenship && t == Territory.MargartianTerritory)) return true;
+        if(t == Territory.SimoniteTerritory && (this instanceof SimCitizenship && t == Territory.SimoniteTerritory)) return true;
         return false;
     }
 }
