@@ -28,8 +28,9 @@ After you've made changes that you wanted, run:
 
 Again, replace YourName with the same name you entered earlier.
 
-Go to [https://github.com/UM-CS/project-4-territory_simulation]
-And there should be a convienient button to create the pull request where I can review it and push it to the main branch.
+Go to https://github.com/UM-CS/project-4-territory_simulation
+
+There should be a convenient button to create the pull request where I can review it and push it to the main branch.
 
 # Lucid Chart UML:
 https://lucid.app/lucidchart/4b81181e-1e74-4dd0-9ea6-8157ff392bb8/edit?invitationId=inv_1a2d16df-507d-4f23-9397-cfb25d1879ac
