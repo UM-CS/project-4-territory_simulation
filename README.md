@@ -6,6 +6,7 @@ If a creature dies by the hands of another creature, the one that survives gets 
 
 ## Clone the Repository Locally:
 Navigate to the directory you want the project to live then run this command:
+
 `git clone git@github.com:UM-CS/project-4-territory_simulation.git`
 
 ## Pull Request Instructions
@@ -19,8 +20,11 @@ This makes a branch where changes you make are isolated from the main project.
 After you've made changes that you wanted, run:
 
 `git add .`
+
 `git commit -m "details about the changes you made."`
+
 `git push --set-upstream origin YourName`
+
 
 Again, replace YourName with the same name you entered earlier.
 
