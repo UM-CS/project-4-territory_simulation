@@ -29,8 +29,8 @@ public class Creature {
         g.setColor(color);
         int drawX = gridX * 15 + 4;
         int drawY = gridY * 15 +4;
-        int drawSize = size -8;
-        g.fillOval(drawX, drawY, drawY, drawSize);
+        int drawSize = size + 8;
+        g.fillOval(drawX, drawY, drawSize, drawSize);
         g.setFont(new Font("SansSerif", Font.PLAIN, 9));
         g.setColor(Color.WHITE);
         g.drawString(name, drawX +2, drawY + (drawSize / 2) + 5);
