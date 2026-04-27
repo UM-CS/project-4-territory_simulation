@@ -15,6 +15,7 @@ import java.util.Random;
 
 import Definitions.Creature;
 import Definitions.Territory;
+import Definitions.ZigZagCitizenship;
 import Definitions.MargCitizenship;
 import Definitions.SimCitizenship;
 
@@ -43,6 +44,7 @@ public class World extends JPanel{
             for(Creature creature : creatures) {
                 if(creature instanceof MargCitizenship) ((MargCitizenship) creature).move(map);
                 if(creature instanceof SimCitizenship) ((SimCitizenship) creature).move(map);
+                if(creature instanceof ZigZagCitizenship) ((ZigZagCitizenship) creature).move(map);
             }
             repaint();
         }).start();
@@ -56,8 +58,8 @@ public class World extends JPanel{
                 // Assign territory to corners 10x10
                 // The rest of the map is unclaimed
                 if(x < 10 && y < 10) map[x][y] = Territory.MargartianTerritory;
-                else if (x > 39 && y <10) map[x][y] = Territory.SimoniteTerritory; // zigzag simonite
-                //else if (x < 10 && y > 39) map[x][y] = Territory.OtherTerritory; // whatever creature is made next
+                else if (x > 39 && y <10) map[x][y] = Territory.ZigZagTerritory; // zigzag simonite
+                //else if (x < 10 && y > 39) map[x][y] = Territory.OtherTerritory; // whatever creature is made
                 else if(x > 39 && y > 39) map[x][y] = Territory.SimoniteTerritory;
                 else map[x][y] = Territory.Unclaimed;
             }
@@ -73,6 +75,7 @@ public class World extends JPanel{
                 switch(map[x][y]) {
                     case MargartianTerritory -> g.setColor(new Color(100, 41, 38));
                     case SimoniteTerritory -> g.setColor(new Color(47, 87, 47));
+                    case ZigZagTerritory -> g.setColor(new Color(102, 178, 200));
                     case Unclaimed -> g.setColor(new Color(84, 84, 84));
                 }
                 g.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -86,26 +89,26 @@ public class World extends JPanel{
 
     public Creature createCreature() throws IOException {
 
-    String rName = getRandomName();
+        String rName = getRandomName();
 
-    int choice = random.nextInt(3);
+        int choice = random.nextInt(3);
 
-    if (choice == 0) {
-        int x = 40 + random.nextInt(10);
-        int y = 40 + random.nextInt(10);
-        return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
+        if (choice == 0) {
+            int x = 40 + random.nextInt(10);
+            int y = 40 + random.nextInt(10);
+            return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
+        }
+        else if (choice == 1){
+            int x = 40 + random.nextInt(10);
+            int y = random.nextInt(10);
+            return new ZigZagSimonite(rName, random.nextInt(3), Color.RED, x, y);
+        }
+        else {
+            int x = random.nextInt(10);
+            int y = random.nextInt(10);
+            return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
+        }
     }
-    else if (choice == 1) {
-        int x = 40 + random.nextInt(10);
-        int y = random.nextInt(10);
-        return new ZigZagSimonite(rName, random.nextInt(3), Color.CYAN, x, y);
-    }
-    else {
-        int x = random.nextInt(10);
-        int y = random.nextInt(10);
-        return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
-    }
-}
 
 
     public String getRandomName() throws IOException {
@@ -113,7 +116,7 @@ public class World extends JPanel{
         ArrayList<Object> names = new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("../names.txt"));
+            reader = new BufferedReader(new FileReader("./names.txt"));
             String line;
             while((line = reader.readLine()) != null) {
                 names.add(line);

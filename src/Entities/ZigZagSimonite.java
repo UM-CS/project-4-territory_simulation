@@ -4,9 +4,9 @@ import java.awt.*;
 
 import Definitions.Creature;
 import Definitions.Territory;
-import Definitions.SimCitizenship;
+import Definitions.ZigZagCitizenship;
 
-public class ZigZagSimonite extends Creature implements SimCitizenship {
+public class ZigZagSimonite extends Creature implements ZigZagCitizenship {
 
     private boolean movingRight = true;
 
