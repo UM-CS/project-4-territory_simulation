@@ -20,6 +20,7 @@ import Definitions.SimCitizenship;
 
 import Entities.Simonite;
 import Entities.Margartian;
+import Entities.ZigZagSimonite;
 
 
 public class World extends JPanel{
@@ -83,19 +84,26 @@ public class World extends JPanel{
 
     public Creature createCreature() throws IOException {
 
-        String rName = getRandomName();
+    String rName = getRandomName();
 
-        if (random.nextBoolean()) {
-            int x = 40 + random.nextInt(10);
-            int y = 40 + random.nextInt(10);
-            return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
-        }
-        else {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-            return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
-        }
+    int choice = random.nextInt(3);
+
+    if (choice == 0) {
+        int x = 40 + random.nextInt(10);
+        int y = 40 + random.nextInt(10);
+        return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
     }
+    else if (choice == 1) {
+        int x = 40 + random.nextInt(10);
+        int y = 40 + random.nextInt(10);
+        return new ZigZagSimonite(rName, random.nextInt(3), Color.CYAN, x, y);
+    }
+    else {
+        int x = random.nextInt(10);
+        int y = random.nextInt(10);
+        return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
+    }
+}
 
 
     public String getRandomName() throws IOException {
@@ -103,7 +111,7 @@ public class World extends JPanel{
         ArrayList<Object> names = new ArrayList<>();
         BufferedReader reader = null;
         try {
-            reader = new BufferedReader(new FileReader("./names.txt"));
+            reader = new BufferedReader(new FileReader("../names.txt"));
             String line;
             while((line = reader.readLine()) != null) {
                 names.add(line);
