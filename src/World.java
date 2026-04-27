@@ -56,6 +56,8 @@ public class World extends JPanel{
                 // Assign territory to corners 10x10
                 // The rest of the map is unclaimed
                 if(x < 10 && y < 10) map[x][y] = Territory.MargartianTerritory;
+                else if (x > 39 && y <10) map[x][y] = Territory.SimoniteTerritory; // zigzag simonite
+                //else if (x < 10 && y > 39) map[x][y] = Territory.OtherTerritory; // whatever creature is made next
                 else if(x > 39 && y > 39) map[x][y] = Territory.SimoniteTerritory;
                 else map[x][y] = Territory.Unclaimed;
             }
@@ -95,7 +97,7 @@ public class World extends JPanel{
     }
     else if (choice == 1) {
         int x = 40 + random.nextInt(10);
-        int y = 40 + random.nextInt(10);
+        int y = random.nextInt(10);
         return new ZigZagSimonite(rName, random.nextInt(3), Color.CYAN, x, y);
     }
     else {
