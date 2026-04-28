@@ -18,10 +18,11 @@ import Definitions.Territory;
 import Definitions.ZigZagCitizenship;
 import Definitions.MargCitizenship;
 import Definitions.SimCitizenship;
+import Definitions.ZigZagCitizenship;
 
 import Entities.Simonite;
 import Entities.Margartian;
-import Entities.ZigZagSimonite;
+import Entities.ZigZagger;
 
 
 public class World extends JPanel{
@@ -87,28 +88,28 @@ public class World extends JPanel{
     }
 
 
-    public Creature createCreature() throws IOException {
+public Creature createCreature() throws IOException {
 
-        String rName = getRandomName();
+    String rName = getRandomName();
 
-        int choice = random.nextInt(3);
+    int choice = random.nextInt(3);
 
-        if (choice == 0) {
-            int x = 40 + random.nextInt(10);
-            int y = 40 + random.nextInt(10);
-            return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
-        }
-        else if (choice == 1){
-            int x = 40 + random.nextInt(10);
-            int y = random.nextInt(10);
-            return new ZigZagSimonite(rName, random.nextInt(3), Color.RED, x, y);
-        }
-        else {
-            int x = random.nextInt(10);
-            int y = random.nextInt(10);
-            return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
-        }
+    if (choice == 0) {
+        int x = 40 + random.nextInt(10);
+        int y = 40 + random.nextInt(10);
+        return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
     }
+    else if (choice == 1) {
+        int x = random.nextInt(10);
+        int y = random.nextInt(10);
+        return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
+    }
+    else {
+        int x = 15 + random.nextInt(20);
+        int y = 15 + random.nextInt(20);
+        return new ZigZagger(rName, random.nextInt(3), Color.CYAN, x, y);
+    }
+}
 
 
     public String getRandomName() throws IOException {
