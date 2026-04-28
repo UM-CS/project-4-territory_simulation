@@ -8,9 +8,7 @@ import java.io.IOException;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
-import java.util.function.Supplier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import Definitions.Creature;
@@ -18,7 +16,6 @@ import Definitions.Territory;
 import Definitions.ZigZagCitizenship;
 import Definitions.MargCitizenship;
 import Definitions.SimCitizenship;
-import Definitions.ZigZagCitizenship;
 
 import Entities.Simonite;
 import Entities.Margartian;
@@ -56,11 +53,8 @@ public class World extends JPanel{
 
         for(int x = 0; x < GRID_COUNT; x++) {
             for(int y = 0; y < GRID_COUNT; y++) {
-                // Assign territory to corners 10x10
-                // The rest of the map is unclaimed
                 if(x < 10 && y < 10) map[x][y] = Territory.MargartianTerritory;
-                else if (x > 39 && y <10) map[x][y] = Territory.ZigZagTerritory; // zigzag simonite
-                //else if (x < 10 && y > 39) map[x][y] = Territory.OtherTerritory; // whatever creature is made
+                else if (x > 39 && y < 10) map[x][y] = Territory.ZigZagTerritory;
                 else if(x > 39 && y > 39) map[x][y] = Territory.SimoniteTerritory;
                 else map[x][y] = Territory.Unclaimed;
             }
@@ -88,28 +82,28 @@ public class World extends JPanel{
     }
 
 
-public Creature createCreature() throws IOException {
+    public Creature createCreature() throws IOException {
 
-    String rName = getRandomName();
+        String rName = getRandomName();
 
-    int choice = random.nextInt(3);
+        int choice = random.nextInt(3);
 
-    if (choice == 0) {
-        int x = 40 + random.nextInt(10);
-        int y = 40 + random.nextInt(10);
-        return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
+        if (choice == 0) {
+            int x = 40 + random.nextInt(10);
+            int y = 40 + random.nextInt(10);
+            return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
+        }
+        else if (choice == 1) {
+            int x = random.nextInt(10);
+            int y = random.nextInt(10);
+            return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
+        }
+        else {
+            int x = 40 + random.nextInt(10);
+            int y = random.nextInt(10);
+            return new ZigZagger(rName, random.nextInt(3), Color.CYAN, x, y);
+        }
     }
-    else if (choice == 1) {
-        int x = random.nextInt(10);
-        int y = random.nextInt(10);
-        return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
-    }
-    else {
-        int x = 15 + random.nextInt(20);
-        int y = 15 + random.nextInt(20);
-        return new ZigZagger(rName, random.nextInt(3), Color.CYAN, x, y);
-    }
-}
 
 
     public String getRandomName() throws IOException {
