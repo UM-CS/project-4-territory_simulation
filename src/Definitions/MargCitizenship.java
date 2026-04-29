@@ -1,5 +1,7 @@
 package Definitions;
 
+import World.World;
+
 public interface MargCitizenship {
-    public void move(Territory[][] map);
+    public void move(World world, Territory[][] map);
 }

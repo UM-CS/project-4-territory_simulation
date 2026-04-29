@@ -1,5 +1,7 @@
 package Definitions;
 
+import World.World;
+
 public interface ZigZagCitizenship {
-    void move(Territory[][] map);
+    void move(World world, Territory[][] map);
 }

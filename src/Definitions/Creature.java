@@ -2,12 +2,16 @@ package Definitions;
 
 import java.awt.*;
 
-public class Creature {
+import World.World;
 
-    protected int gridX, gridY;
+public abstract class Creature {
+
+    public int gridX;
+    public int gridY;
     String name;
     int size;
     Color color;
+    public int health, dmg;
 
     public Creature(String name, int size, Color color, int x, int y) {
         this.gridX = x;
@@ -46,5 +50,13 @@ public class Creature {
         if(t == Territory.ZigZagTerritory && (this instanceof ZigZagCitizenship && t == Territory.ZigZagTerritory)) return true;
         return false;
     }
+
+    public abstract boolean Attack(World world);
+    public abstract void move(World world, Territory[][] map);
+
+    public void takeDmg(int dmg){
+        health -= dmg;
+    }
+    
 }
 
