@@ -105,7 +105,7 @@ public class World extends JPanel{
             for(int y = 0; y < GRID_COUNT; y++) {
                 switch(map[x][y]) {
                     case MargartianTerritory -> g.setColor(new Color(100, 41, 38));
-                    case SimoniteTerritory -> g.setColor(new Color(47, 87, 47));
+                    case SimoniteTerritory -> g.setColor(new Color(59, 158, 59));
                     case ZigZagTerritory -> g.setColor(new Color(102, 178, 200));
                     case InhabitantTerritory -> g.setColor(new Color(218, 165, 32));
                     case Unclaimed -> g.setColor(new Color(84, 84, 84));
