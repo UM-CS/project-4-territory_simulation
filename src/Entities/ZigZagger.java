@@ -99,7 +99,7 @@ public class ZigZagger extends Creature implements ZigZagCitizenship {
                 }
 
                 if(mate instanceof ZigZagCitizenship){
-                    int chance = random.nextInt(20);
+                    int chance = random.nextInt(100);
                     if(chance == 3){
                         world.reproCreature(id);
                     }

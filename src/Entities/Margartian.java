@@ -106,7 +106,7 @@ public class Margartian extends Creature implements MargCitizenship {
                 }
 
                 if(mate instanceof MargCitizenship){
-                    int chance = random.nextInt(20);
+                    int chance = random.nextInt(100);
                     if(chance == 1){
                         world.reproCreature(id);
                     }

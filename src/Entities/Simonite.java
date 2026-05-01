@@ -98,7 +98,7 @@ public class Simonite extends Creature implements SimCitizenship{
                 }
 
                 if(mate instanceof SimCitizenship){
-                    int chance = random.nextInt(20);
+                    int chance = random.nextInt(100);
                     if(chance == 2){
                         world.reproCreature(id);
 

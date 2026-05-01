@@ -64,6 +64,7 @@ public class World extends JPanel{
 
         int total = GRID_COUNT * GRID_COUNT;
         int margCount = 0, simCount = 0, zigCount = 0;
+        int marg = 0, sim = 0, zig = 0;
 
         for(int x = 0; x < GRID_COUNT; x++) {
             for(int y = 0; y < GRID_COUNT; y++) {
@@ -74,11 +75,22 @@ public class World extends JPanel{
                 }
             }
         }
+        
+        for(Creature c : creatures) {
+            if(c instanceof Entities.Margartian) marg++;
+            else if(c instanceof Entities.Simonite) sim++;
+            else if(c instanceof Entities.ZigZagger) zig++;
+        }
 
         g.setColor(Color.WHITE);
         g.drawString("Margartian: " + String.format("%.1f%%", margCount * 100.0 / total), 30, 75);
+        g.drawString("Count: " + marg, 30, 90);
+        
         g.drawString("ZigZagger: " + String.format("%.1f%%", zigCount * 100.0 / total), 635, 75);
+        g.drawString("Count: " + zig, 635, 90);
+        
         g.drawString("Simonite: " + String.format("%.1f%%", simCount * 100.0 / total), 635, 675);
+        g.drawString("Count: " + sim, 635, 690);
     }
 
 

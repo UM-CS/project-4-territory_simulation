@@ -38,7 +38,8 @@ public abstract class Creature {
         if(t == Territory.MargartianTerritory && (this instanceof MargCitizenship && t == Territory.MargartianTerritory)) return true;
         if(t == Territory.SimoniteTerritory && (this instanceof SimCitizenship && t == Territory.SimoniteTerritory)) return true;
         if(t == Territory.ZigZagTerritory && (this instanceof ZigZagCitizenship && t == Territory.ZigZagTerritory)) return true;
-        return false;
+        return true;
+        //return false;
     }
 
     public abstract boolean Attack(World world, Territory[][] map);
