@@ -1,14 +1,11 @@
 package Entities;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Random;
-
 import Definitions.Creature;
-import Definitions.MargCitizenship;
+import Definitions.SimCitizenship;
 import Definitions.Territory;
 import World.World;
-import Definitions.SimCitizenship;
+import java.awt.*;
+import java.util.Random;
 
 public class Simonite extends Creature implements SimCitizenship{
     Random random = new Random();

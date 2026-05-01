@@ -1,9 +1,7 @@
 package Definitions;
 
-import java.awt.*;
-import java.io.IOException;
-
 import World.World;
+import java.awt.*;
 
 public abstract class Creature {
 
@@ -38,6 +36,7 @@ public abstract class Creature {
         if(t == Territory.MargartianTerritory && (this instanceof MargCitizenship && t == Territory.MargartianTerritory)) return true;
         if(t == Territory.SimoniteTerritory && (this instanceof SimCitizenship && t == Territory.SimoniteTerritory)) return true;
         if(t == Territory.ZigZagTerritory && (this instanceof ZigZagCitizenship && t == Territory.ZigZagTerritory)) return true;
+        if(t == Territory.InhabitantTerritory && (this instanceof InhabitantCitzenship && t == Territory.InhabitantTerritory)) return true;
         return true;
         //return false;
     }
