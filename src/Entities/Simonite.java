@@ -1,9 +1,11 @@
 package Entities;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
 
 import Definitions.Creature;
+import Definitions.MargCitizenship;
 import Definitions.Territory;
 import World.World;
 import Definitions.SimCitizenship;
@@ -12,8 +14,8 @@ public class Simonite extends Creature implements SimCitizenship{
     Random random = new Random();
     int speed = 1;
 
-    public Simonite(String name, int size, Color color, int x, int y) {
-        super(name, size, color, x, y);
+    public Simonite(int size, Color color, int x, int y) {
+        super(size, color, x, y);
         this.dmg = random.nextInt(2, 4);
         this.health = random.nextInt(5, 10);
     }
@@ -39,7 +41,7 @@ public class Simonite extends Creature implements SimCitizenship{
         }
     }
 
-    public boolean Attack(World world){
+    public boolean Attack(World world, Territory[][] map){
         int[] axis = {-1, 1, 0};
 
         for(int j = 0; j < axis.length; j++){
@@ -56,11 +58,63 @@ public class Simonite extends Creature implements SimCitizenship{
                 if(!(target instanceof SimCitizenship)){
                     if(random.nextBoolean()){
                         ((Creature) target).takeDmg(dmg);
+                        if(((Creature) target).die()){
+                            reproduce(world, map, true);
+                            if(map[tempX][tempY] != Territory.SimoniteTerritory){
+                                map[tempX][tempY] = Territory.Unclaimed;
+                            }
+                            map[gridX][gridY] = Territory.SimoniteTerritory;
+                        }
                     }
                     return true;
                 }
             }
         }
         return false;
+    }
+
+    @Override
+    public boolean die() {
+        if(health <= 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void reproduce(World world, Territory[][] map, boolean won){
+        int[] axis = {-1, 1, 0};
+        int id = 2;
+
+        for(int j = 0; j < axis.length; j++){
+            for(int k = 0; k < axis.length; k++){
+                int tempX = gridX + axis[j];
+                int tempY = gridY + axis[k];
+                
+                Object mate = world.getCreature(tempX, tempY);
+
+                if(mate == null){
+                    continue;
+                }
+
+                if(mate instanceof SimCitizenship){
+                    int chance = random.nextInt(20);
+                    if(chance == 2){
+                        world.reproCreature(id);
+
+                    }
+                }else if(won){
+                    boolean chance = random.nextBoolean();
+                    world.reproCreature(id);
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public int id() {
+        int id = 2;
+        return id;
     }    
 }

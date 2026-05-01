@@ -1,6 +1,7 @@
 package Definitions;
 
 import java.awt.*;
+import java.io.IOException;
 
 import World.World;
 
@@ -8,25 +9,16 @@ public abstract class Creature {
 
     public int gridX;
     public int gridY;
-    String name;
+
     int size;
     Color color;
     public int health, dmg;
 
-    public Creature(String name, int size, Color color, int x, int y) {
+    public Creature(int size, Color color, int x, int y) {
         this.gridX = x;
         this.gridY = y;
-        this.name = name;
         this.size = size;
         this.color = color;
-    }
-
-    public void die() {
-
-    }
-
-    public void reproduce() {
-
     }
 
     public void draw(Graphics g) {
@@ -35,9 +27,7 @@ public abstract class Creature {
         int drawY = gridY * 15 +4;
         int drawSize = size + 8;
         g.fillOval(drawX, drawY, drawSize, drawSize);
-        g.setFont(new Font("SansSerif", Font.PLAIN, 9));
-        g.setColor(Color.WHITE);
-        g.drawString(name, drawX +2, drawY + (drawSize / 2) + 5);
+        
     }
 
     protected boolean canEnter(int x, int y, Territory[][] map) {
@@ -51,12 +41,16 @@ public abstract class Creature {
         return false;
     }
 
-    public abstract boolean Attack(World world);
+    public abstract boolean Attack(World world, Territory[][] map);
     public abstract void move(World world, Territory[][] map);
+    public abstract boolean die(); 
+    public abstract void reproduce(World world, Territory[][] map, boolean won); 
+    public abstract int id();
 
     public void takeDmg(int dmg){
         health -= dmg;
     }
+    
     
 }
 

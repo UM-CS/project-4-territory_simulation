@@ -1,6 +1,5 @@
 package World;
 import javax.swing.*;
-import javax.swing.Timer;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -25,22 +24,27 @@ public class World extends JPanel{
     private Territory[][] map = new Territory[GRID_COUNT][GRID_COUNT];
     private List<Creature> creatures;
     private final Random random = new Random();
+    private List<Creature> tempCreatures;
 
     public World(int n) throws IOException {
 
         setBackground(new Color(20, 20, 30));
         generateMap();
         creatures = new ArrayList<>();
+        tempCreatures = new ArrayList<>();
 
-        for (int i = 0; i < 50; i++) creatures.add(createCreature());
+        for (int i = 0; i < 75; i++) creatures.add(createCreature());
 
-        new Timer(200, e -> {
+        new Timer(100, e -> {
             for(Creature creature : creatures) {
-                if(!creature.Attack(this)){
+                if(!creature.Attack(this, map)){
                     creature.move(this, map);
-                }
+                }        
             }
+            
             creatures.removeIf(c -> c.health <= 0);
+            creatures.addAll(tempCreatures);
+            tempCreatures.removeAll(creatures);
             repaint();
         }).start();
     }
@@ -79,47 +83,62 @@ public class World extends JPanel{
     }
 
 
-    public Creature createCreature() throws IOException {
-
-        String rName = getRandomName();
-
+    public Creature createCreature(){
         int choice = random.nextInt(3);
 
         if (choice == 0) {
             int x = 40 + random.nextInt(10);
             int y = 40 + random.nextInt(10);
-            return new Simonite(rName, random.nextInt(3), Color.GREEN, x, y);
+            return new Simonite(random.nextInt(3), Color.GREEN, x, y);
         }
         else if (choice == 1) {
             int x = random.nextInt(10);
             int y = random.nextInt(10);
-            return new Margartian(rName, random.nextInt(3), Color.RED, x, y);
+            return new Margartian(random.nextInt(3), Color.RED, x, y);
         }
         else {
             int x = 40 + random.nextInt(10);
             int y = random.nextInt(10);
-            return new ZigZagger(rName, random.nextInt(3), Color.CYAN, x, y);
+            return new ZigZagger(random.nextInt(3), Color.CYAN, x, y);
         }
     }
 
-
-    public String getRandomName() throws IOException {
-
-        ArrayList<Object> names = new ArrayList<>();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("./names.txt"));
-            String line;
-            while((line = reader.readLine()) != null) {
-                names.add(line);
+    public Creature reproCreature(int id){
+            if(id == 1){
+                int x = random.nextInt(10);
+                int y = random.nextInt(10);
+                 tempCreatures.add(new Margartian(random.nextInt(3), Color.RED, x, y));
             }
+            if(id == 2){
+                int x = 40 + random.nextInt(10);
+                int y = 40 + random.nextInt(10);
+                tempCreatures.add(new Simonite(random.nextInt(3), Color.GREEN, x, y));
+            }
+            if(id == 3){
+                int x = 40 + random.nextInt(10);
+                int y = random.nextInt(10);
+                 tempCreatures.add(new ZigZagger(random.nextInt(3), Color.CYAN, x, y));
         }
-        catch (IOException e) {System.out.println(e);}
-        finally {if(reader != null) reader.close();}
-
-        Random random = new Random();
-        return (String) names.get(random.nextInt(names.size()-1));
+            return null;
     }
+
+    //public String getRandomName() throws IOException {
+//
+    //    ArrayList<Object> names = new ArrayList<>();
+    //    BufferedReader reader = null;
+    //    try {
+    //        reader = new BufferedReader(new FileReader("./names.txt"));
+    //        String line;
+    //        while((line = reader.readLine()) != null) {
+    //            names.add(line);
+    //        }
+    //    }
+    //    catch (IOException e) {System.out.println(e);}
+    //    finally {if(reader != null) reader.close();}
+//
+    //    Random random = new Random();
+    //    return (String) names.get(random.nextInt(names.size()-1));
+    //}
 
     public Object getCreature(int x, int y){
         for(Creature c : creatures){

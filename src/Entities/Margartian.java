@@ -1,6 +1,7 @@
 package Entities;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
 
 import Definitions.Creature;
@@ -13,8 +14,8 @@ public class Margartian extends Creature implements MargCitizenship {
     int speed = 2;
 
 
-    public Margartian(String name, int size, Color color, int x, int y) {
-        super(name, size, color, x, y);
+    public Margartian(int size, Color color, int x, int y) {
+        super(size, color, x, y);
         this.dmg = random.nextInt(2, 4);
         this.health = random.nextInt(5, 10);
     }
@@ -41,7 +42,7 @@ public class Margartian extends Creature implements MargCitizenship {
         }
     }
 
-    public boolean Attack(World world){
+    public boolean Attack(World world, Territory[][] map){
         int[] axis = {-1, 1, 0};
 
         for(int j = 0; j < axis.length; j++){
@@ -58,6 +59,14 @@ public class Margartian extends Creature implements MargCitizenship {
                 if(!(target instanceof MargCitizenship)){
                     if(random.nextBoolean()){
                         ((Creature) target).takeDmg(dmg);
+                        if(((Creature) target).die()){
+                            reproduce(world, map, true);
+                            if(map[tempX][tempY] != Territory.MargartianTerritory){
+                                map[tempX][tempY] = Territory.Unclaimed;
+                            }
+                            map[gridX][gridY] = Territory.MargartianTerritory;
+                        }
+                        
                     }
                     return true;
                 }
@@ -65,5 +74,52 @@ public class Margartian extends Creature implements MargCitizenship {
         }
         return false;
     }
-    
+
+
+    @Override
+    public boolean die() {
+        if(health <= 0){
+            return true;
+        }
+        return false;
+    }
+    public int id(){
+        int id = 1;
+        return id;
+    }
+
+
+    @Override
+    public void reproduce(World world, Territory[][] map, boolean won){
+        int[] axis = {-1, 1, 0};
+        int id = 1;
+
+        for(int j = 0; j < axis.length; j++){
+            for(int k = 0; k < axis.length; k++){
+                int tempX = gridX + axis[j];
+                int tempY = gridY + axis[k];
+                
+                Object mate = world.getCreature(tempX, tempY);
+
+                if(mate == null){
+                    continue;
+                }
+
+                if(mate instanceof MargCitizenship){
+                    int chance = random.nextInt(20);
+                    if(chance == 1){
+                        world.reproCreature(id);
+                    }
+                }else if(won){
+                    boolean chance = random.nextBoolean();
+                    world.reproCreature(id);
+                }
+
+            }
+        }
+    }
+
+
+
+   
 }
