@@ -31,7 +31,7 @@ public class World extends JPanel{
 
         for (int i = 0; i < 75; i++) creatures.add(createCreature());
 
-        new Timer(50, e -> {
+        new Timer(10, e -> {
             for(Creature creature : creatures) {
                 if(!creature.Attack(this, map)){
                     creature.move(this, map);

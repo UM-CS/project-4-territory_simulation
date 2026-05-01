@@ -76,8 +76,9 @@ public class Inhabitant extends Creature implements InhabitantCitzenship {
                         ((Creature) target).takeDmg(dmg);
                         if (((Creature) target).die()) {
                             reproduce(world, map, true);
-                            
-                            map[tempX][tempY] = Territory.InhabitantTerritory;
+                            if(map[tempX][tempY] != Territory.InhabitantTerritory){
+                                map[tempX][tempY] = Territory.Unclaimed;
+                            }
                             map[gridX][gridY] = Territory.InhabitantTerritory;
                         }
                     }
@@ -103,7 +104,7 @@ public class Inhabitant extends Creature implements InhabitantCitzenship {
                 Object mate = world.getCreature(tempX, tempY);
 
                 if (mate instanceof InhabitantCitzenship) {
-                    if (random.nextInt(20) == 3) {
+                    if (random.nextInt(100) == 3) {
                         world.reproCreature(id);
                     }
                 } else if (won) {
