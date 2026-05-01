@@ -1,13 +1,11 @@
 package Entities;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Random;
-
 import Definitions.Creature;
+import Definitions.MargCitizenship;
 import Definitions.Territory;
 import World.World;
-import Definitions.MargCitizenship;
+import java.awt.*;
+import java.util.Random;
 
 public class Margartian extends Creature implements MargCitizenship {
     Random random = new Random();

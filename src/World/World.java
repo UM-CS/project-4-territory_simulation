@@ -1,18 +1,16 @@
 package World;
-import javax.swing.*;
-
-import java.io.IOException;
-
-import java.awt.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Random;
-
 import Definitions.Creature;
 import Definitions.Territory;
-import Entities.Simonite;
+import Entities.Inhabitant;
 import Entities.Margartian;
+import Entities.Simonite;
 import Entities.ZigZagger;
+import java.awt.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+import javax.swing.*;
 
 
 public class World extends JPanel{
@@ -55,6 +53,7 @@ public class World extends JPanel{
                 if(x < 10 && y < 10) map[x][y] = Territory.MargartianTerritory;
                 else if (x > 39 && y < 10) map[x][y] = Territory.ZigZagTerritory;
                 else if(x > 39 && y > 39) map[x][y] = Territory.SimoniteTerritory;
+                else if(x < 10 && y > 39) map[x][y] = Territory.InhabitantTerritory;
                 else map[x][y] = Territory.Unclaimed;
             }
         }
@@ -63,8 +62,8 @@ public class World extends JPanel{
     private void getTerrainStats(Graphics g) {
 
         int total = GRID_COUNT * GRID_COUNT;
-        int margCount = 0, simCount = 0, zigCount = 0;
-        int marg = 0, sim = 0, zig = 0;
+        int margCount = 0, simCount = 0, zigCount = 0, inCount = 0;
+        int marg = 0, sim = 0, zig = 0, in = 0;
 
         for(int x = 0; x < GRID_COUNT; x++) {
             for(int y = 0; y < GRID_COUNT; y++) {
@@ -72,6 +71,7 @@ public class World extends JPanel{
                     case MargartianTerritory -> margCount++;
                     case SimoniteTerritory -> simCount++;
                     case ZigZagTerritory -> zigCount++;
+                    case InhabitantTerritory -> inCount++;
                 }
             }
         }
@@ -80,6 +80,7 @@ public class World extends JPanel{
             if(c instanceof Entities.Margartian) marg++;
             else if(c instanceof Entities.Simonite) sim++;
             else if(c instanceof Entities.ZigZagger) zig++;
+            else if(c instanceof Entities.Inhabitant) in++;
         }
 
         g.setColor(Color.WHITE);
@@ -91,6 +92,9 @@ public class World extends JPanel{
         
         g.drawString("Simonite: " + String.format("%.1f%%", simCount * 100.0 / total), 635, 675);
         g.drawString("Count: " + sim, 635, 690);
+
+        g.drawString("Inhabitant: " + String.format("%.1f%%", inCount * 100.0 / total), 30, 675);
+        g.drawString("Count: " + in, 30, 690);
     }
 
 
@@ -103,6 +107,7 @@ public class World extends JPanel{
                     case MargartianTerritory -> g.setColor(new Color(100, 41, 38));
                     case SimoniteTerritory -> g.setColor(new Color(47, 87, 47));
                     case ZigZagTerritory -> g.setColor(new Color(102, 178, 200));
+                    case InhabitantTerritory -> g.setColor(new Color(218, 165, 32));
                     case Unclaimed -> g.setColor(new Color(84, 84, 84));
                 }
                 g.fillRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
@@ -117,7 +122,7 @@ public class World extends JPanel{
 
 
     public Creature createCreature(){
-        int choice = random.nextInt(3);
+        int choice = random.nextInt(4);
 
         if (choice == 0) {
             int x = 40 + random.nextInt(10);
@@ -129,11 +134,17 @@ public class World extends JPanel{
             int y = random.nextInt(10);
             return new Margartian(random.nextInt(3), Color.RED, x, y);
         }
-        else {
+        else if (choice == 2) {
             int x = 40 + random.nextInt(10);
             int y = random.nextInt(10);
             return new ZigZagger(random.nextInt(3), Color.CYAN, x, y);
         }
+        else if (choice == 3) {
+            int x = random.nextInt(10);
+            int y = 40 + random.nextInt(10);
+            return new Inhabitant(random.nextInt(3), Color.YELLOW, x, y);
+        }
+        return null;
     }
 
     public Creature reproCreature(int id){
@@ -150,8 +161,13 @@ public class World extends JPanel{
             if(id == 3){
                 int x = 40 + random.nextInt(10);
                 int y = random.nextInt(10);
-                 tempCreatures.add(new ZigZagger(random.nextInt(3), Color.CYAN, x, y));
-        }
+                tempCreatures.add(new ZigZagger(random.nextInt(3), Color.CYAN, x, y));
+            }
+            if(id == 4) {
+                int x = random.nextInt(10);
+                int y = 40 +random.nextInt(10);
+                 tempCreatures.add(new Inhabitant(random.nextInt(3), Color.YELLOW, x, y));
+            }
             return null;
     }
 

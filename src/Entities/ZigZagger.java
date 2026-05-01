@@ -1,14 +1,11 @@
 package Entities;
 
-import java.awt.*;
-import java.io.IOException;
-import java.util.Random;
-
 import Definitions.Creature;
-import Definitions.MargCitizenship;
 import Definitions.Territory;
 import Definitions.ZigZagCitizenship;
 import World.World;
+import java.awt.*;
+import java.util.Random;
 
 public class ZigZagger extends Creature implements ZigZagCitizenship {
 
