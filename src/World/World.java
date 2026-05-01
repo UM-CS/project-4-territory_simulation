@@ -1,8 +1,6 @@
 package World;
 import javax.swing.*;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 
 import java.awt.*;
@@ -35,7 +33,7 @@ public class World extends JPanel{
 
         for (int i = 0; i < 75; i++) creatures.add(createCreature());
 
-        new Timer(100, e -> {
+        new Timer(50, e -> {
             for(Creature creature : creatures) {
                 if(!creature.Attack(this, map)){
                     creature.move(this, map);
@@ -62,6 +60,27 @@ public class World extends JPanel{
         }
     }
 
+    private void getTerrainStats(Graphics g) {
+
+        int total = GRID_COUNT * GRID_COUNT;
+        int margCount = 0, simCount = 0, zigCount = 0;
+
+        for(int x = 0; x < GRID_COUNT; x++) {
+            for(int y = 0; y < GRID_COUNT; y++) {
+                switch(map[x][y]) {
+                    case MargartianTerritory -> margCount++;
+                    case SimoniteTerritory -> simCount++;
+                    case ZigZagTerritory -> zigCount++;
+                }
+            }
+        }
+
+        g.setColor(Color.WHITE);
+        g.drawString("Margartian: " + String.format("%.1f%%", margCount * 100.0 / total), 30, 75);
+        g.drawString("ZigZagger: " + String.format("%.1f%%", zigCount * 100.0 / total), 635, 75);
+        g.drawString("Simonite: " + String.format("%.1f%%", simCount * 100.0 / total), 635, 675);
+    }
+
 
     protected void paintComponent(Graphics g) {
 
@@ -79,6 +98,8 @@ public class World extends JPanel{
                 g.drawRect(x*CELL_SIZE, y*CELL_SIZE, CELL_SIZE, CELL_SIZE);
             }
         }
+
+        getTerrainStats(g);
         for (Creature c : creatures) c.draw(g);
     }
 
