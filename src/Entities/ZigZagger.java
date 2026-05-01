@@ -1,9 +1,11 @@
 package Entities;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.Random;
 
 import Definitions.Creature;
+import Definitions.MargCitizenship;
 import Definitions.Territory;
 import Definitions.ZigZagCitizenship;
 import World.World;
@@ -12,8 +14,8 @@ public class ZigZagger extends Creature implements ZigZagCitizenship {
 
     private Random random = new Random();
 
-    public ZigZagger(String name, int size, Color color, int x, int y) {
-        super(name, size, color, x, y);
+    public ZigZagger(int size, Color color, int x, int y) {
+        super(size, color, x, y);
         this.dmg = random.nextInt(2, 4);
         this.health = random.nextInt(5, 10);
     }
@@ -37,7 +39,8 @@ public class ZigZagger extends Creature implements ZigZagCitizenship {
         }
     }
 
-    public boolean Attack(World world){
+    @Override
+    public boolean Attack(World world, Territory[][] map) {
         int[] axis = {-1, 1, 0};
 
         for(int j = 0; j < axis.length; j++){
@@ -54,6 +57,13 @@ public class ZigZagger extends Creature implements ZigZagCitizenship {
                 if(!(target instanceof ZigZagCitizenship)){
                     if(random.nextBoolean()){
                         ((Creature) target).takeDmg(dmg);
+                        if(((Creature) target).die()){
+                            reproduce(world, map, true);
+                            if(map[tempX][tempY] != Territory.ZigZagTerritory){
+                                map[tempX][tempY] = Territory.Unclaimed;
+                            }
+                            map[gridX][gridY] = Territory.ZigZagTerritory;
+                        }
                     }
                     return true;
                 }
@@ -61,4 +71,53 @@ public class ZigZagger extends Creature implements ZigZagCitizenship {
         }
         return false;
     }
+
+    @Override
+    public boolean die() {
+        if(health <= 0){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void reproduce(World world, Territory[][] map, boolean won){
+        int[] axis = {-1, 1, 0};
+        int id = 3;
+
+        
+
+        for(int j = 0; j < axis.length; j++){
+            for(int k = 0; k < axis.length; k++){
+                int tempX = gridX + axis[j];
+                int tempY = gridY + axis[k];
+                
+                Object mate = world.getCreature(tempX, tempY);
+
+                if(mate == null){
+                    continue;
+                }
+
+                if(mate instanceof ZigZagCitizenship){
+                    int chance = random.nextInt(20);
+                    if(chance == 3){
+                        world.reproCreature(id);
+                    }
+                }else if(won){
+                    boolean chance = random.nextBoolean();
+                    world.reproCreature(id);
+                }
+
+            }
+        }
+    }
+
+    @Override
+    public int id() {
+        int id = 3;
+        return id;
+    }
+
+    
+
 }
